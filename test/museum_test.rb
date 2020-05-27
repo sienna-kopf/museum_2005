@@ -12,11 +12,6 @@ class MuseumTest < Minitest::Test
     @dead_sea_scrolls = Exhibit.new({name: "Dead Sea Scrolls", cost: 10})
     @imax = Exhibit.new({name: "IMAX",cost: 15})
 
-    @patron_1 = Patron.new("Bob", 20)
-    @patron_1.add_interest("Gems and Minerals")
-    @patron_1.add_interest("Dead Sea Scrolls")
-
-
     @patron_2 = Patron.new("Sally", 20)
 
     @patron_3 = Patron.new("Johnny", 5)
@@ -54,7 +49,13 @@ class MuseumTest < Minitest::Test
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
 
+    @patron_1 = Patron.new("Bob", 20)
+    @patron_1.add_interest("Gems and Minerals")
+    @patron_1.add_interest("Dead Sea Scrolls")
+
+
     @patron_2.add_interest("IMAX")
+
 
     assert_equal [@gems_and_minerals, @dead_sea_scrolls], @dmns.recommend_exhibits(@patron_1)
     assert_equal [@imax], @dmns.recommend_exhibits(@patron_2)
@@ -81,8 +82,39 @@ class MuseumTest < Minitest::Test
   # end
 
   def test_ticket_lottery_contestants
+    @patron_1 = Patron.new("Bob", 0)
+    @patron_1.add_interest("Gems and Minerals")
+    @patron_1.add_interest("Dead Sea Scrolls")
+
     @patron_2.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@patron_1)
+    @dmns.admit(@patron_2)
+    @dmns.admit(@patron_3)
+
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    @dmns.add_exhibit(@imax)
 
     assert_equal [@patron_1, @patron_3], @dmns.ticket_lottery_contestants(@dead_sea_scrolls)
-  end 
+  end
+
+  def test_draw_lottery_winner
+    @patron_1 = Patron.new("Bob", 0)
+    @patron_1.add_interest("Gems and Minerals")
+    @patron_1.add_interest("Dead Sea Scrolls")
+
+    @patron_2.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@patron_1)
+    @dmns.admit(@patron_2)
+    @dmns.admit(@patron_3)
+
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    @dmns.add_exhibit(@imax)
+
+    # @dmns.stub(:draw_lottery_winner).returns(@patron_3)
+
+    assert_nil nil, @dmns.draw_lottery_winner(@gems_and_minerals)
+    assert_equal @patron_3, @dmns.draw_lottery_winner(@dead_sea_scrolls)
+  end
 end
