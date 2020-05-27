@@ -43,7 +43,12 @@ class Museum
 
   def draw_lottery_winner(exhibit)
     ticket_lottery_contestants(exhibit).sample
-  end 
+  end
+
+  def announce_lottery_winner(exhibit)
+    require "pry"; binding.pry
+    "#{draw_lottery_winner(exhibit).name} has won the #{exhibit.name} exhibit lottery"
+  end
 
   # def patrons_by_exhibit_interest
   #   patrons_by_interest = {}
