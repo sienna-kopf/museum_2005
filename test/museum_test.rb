@@ -13,11 +13,15 @@ class MuseumTest < Minitest::Test
     @imax = Exhibit.new({name: "IMAX",cost: 15})
 
     @patron_1 = Patron.new("Bob", 20)
-    @patron_1.add_interest("Dead Sea Scrolls")
     @patron_1.add_interest("Gems and Minerals")
+    @patron_1.add_interest("Dead Sea Scrolls")
+
 
     @patron_2 = Patron.new("Sally", 20)
-    @patron_2.add_interest("IMAX")
+    @patron_2.add_interest("Dead Sea Scrolls")
+
+    @patron_3 = Patron.new("Johnny", 5)
+    @patron_3.add_interest("Dead Sea Scrolls")
   end
 
   def test_it_exists
@@ -27,7 +31,7 @@ class MuseumTest < Minitest::Test
   def test_it_has_attributes
     assert_equal "Denver Museum of Nature and Science", @dmns.name
     assert_equal [], @dmns.exhibits
-    assert_equal [], @dmns.patrons 
+    assert_equal [], @dmns.patrons
   end
 
   def test_it_can_add_exhibits
@@ -37,6 +41,13 @@ class MuseumTest < Minitest::Test
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
     assert_equal [@gems_and_minerals, @dead_sea_scrolls, @imax], @dmns.exhibits
+  end
+
+  def test_it_can_add_patrons
+    @dmns.admit(@patron_1)
+    @dmns.admit(@patron_2)
+    @dmns.admit(@patron_3)
+    assert_equal [@patron_1, @patron_2, @patron_3], @dmns.patrons
   end
 
   def test_it_can_recommend_exhibits_based_on_patrons_interests
