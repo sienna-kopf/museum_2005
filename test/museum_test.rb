@@ -119,4 +119,23 @@ class MuseumTest < Minitest::Test
     @dmns.expects(:draw_lottery_winner).returns(@patron_3)
     assert_equal @patron_3, @dmns.draw_lottery_winner(@dead_sea_scrolls)
   end
+
+  def test_it_can_announce_a_lottery_winner
+    @patron_1 = Patron.new("Bob", 0)
+    @patron_1.add_interest("Gems and Minerals")
+    @patron_1.add_interest("Dead Sea Scrolls")
+    @patron_1.add_interest("IMAX")
+
+    @patron_2.add_interest("Dead Sea Scrolls")
+    @dmns.admit(@patron_1)
+    @dmns.admit(@patron_2)
+    @dmns.admit(@patron_3)
+
+    @dmns.add_exhibit(@gems_and_minerals)
+    @dmns.add_exhibit(@dead_sea_scrolls)
+    @dmns.add_exhibit(@imax)
+
+    assert_equal "No winners for this lottery", @dmns.announce_lottery_winner(@gems_and_minerals)
+    assert_equal "Bob has won the IMAX exhibit lottery", @dmns.announce_lottery_winner(@imax)
+  end
 end
