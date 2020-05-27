@@ -41,6 +41,10 @@ class Museum
     lottery_contestants
   end
 
+  def draw_lottery_winner(exhibit)
+    ticket_lottery_contestants(exhibit).sample
+  end 
+
   # def patrons_by_exhibit_interest
   #   patrons_by_interest = {}
   #   @patrons.each do |patron|
