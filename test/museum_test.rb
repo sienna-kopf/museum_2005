@@ -3,6 +3,8 @@ require 'minitest/pride'
 require './lib/patron'
 require './lib/exhibit'
 require './lib/museum'
+require 'mocha/minitest'
+
 
 class MuseumTest < Minitest::Test
   def setup
@@ -112,9 +114,9 @@ class MuseumTest < Minitest::Test
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
 
-    # @dmns.stub(:draw_lottery_winner).returns(@patron_3)
-
     assert_nil nil, @dmns.draw_lottery_winner(@gems_and_minerals)
+
+    @dmns.expects(:draw_lottery_winner).returns(@patron_3)
     assert_equal @patron_3, @dmns.draw_lottery_winner(@dead_sea_scrolls)
   end
 end
