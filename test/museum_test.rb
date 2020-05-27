@@ -18,7 +18,6 @@ class MuseumTest < Minitest::Test
 
 
     @patron_2 = Patron.new("Sally", 20)
-    @patron_2.add_interest("Dead Sea Scrolls")
 
     @patron_3 = Patron.new("Johnny", 5)
     @patron_3.add_interest("Dead Sea Scrolls")
@@ -54,6 +53,8 @@ class MuseumTest < Minitest::Test
     @dmns.add_exhibit(@gems_and_minerals)
     @dmns.add_exhibit(@dead_sea_scrolls)
     @dmns.add_exhibit(@imax)
+
+    @patron_2.add_interest("IMAX")
 
     assert_equal [@gems_and_minerals, @dead_sea_scrolls], @dmns.recommend_exhibits(@patron_1)
     assert_equal [@imax], @dmns.recommend_exhibits(@patron_2)
